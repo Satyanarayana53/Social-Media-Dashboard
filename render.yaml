@@ -1,0 +1,7 @@
+# render.yaml
+services:
+  - type: web
+    name: social-media-dashboard
+    env: python
+    buildCommand: ""
+    startCommand: python app.py
