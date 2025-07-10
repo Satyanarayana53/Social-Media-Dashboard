@@ -41,6 +41,7 @@ gast==0.6.0
 gitignore==0.0.8
 google-pasta==0.2.0
 grpcio==1.66.1
+gunicorn
 gTTS==2.5.4
 h11==0.14.0
 h5py==3.11.0
@@ -88,6 +89,7 @@ PyAudio==0.2.14
 PyAutoGUI==0.9.54
 pycryptodome==3.21.0
 pydantic==2.10.4
+
 pydantic_core==2.27.2
 PyGetWindow==0.0.9
 Pygments==2.18.0
