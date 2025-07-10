@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media Analytics Dashboard</title>
+    <link rel="icon" type="image/png" href="/static/assets/icon.png" />
+    
+    <meta name="author" content="Pilla SreeBala Veera Venkata Satyanarayana" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-chart-line me-2"></i>
+                Social Analytics
+            </a>
+            <span class="navbar-text d-none d-md-block text-muted">
+                Data Period: Jan 2022 - Feb 12, 2023
+            </span>
+            <div class="navbar-nav ms-auto">
+                <span class="navbar-text">
+                    <i class="fas fa-circle text-success me-1"></i>
+                    Live Dashboard
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Controls -->
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">Filters</h6>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Platforms</label>
+                                <div class="platform-filters">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input platform-filter" type="checkbox" value="twitter" id="twitter" checked>
+                                        <label class="form-check-label" for="twitter">
+                                            <i class="fab fa-twitter text-info me-1"></i>Twitter
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input platform-filter" type="checkbox" value="instagram" id="instagram" checked>
+                                        <label class="form-check-label" for="instagram">
+                                            <i class="fab fa-instagram text-danger me-1"></i>Instagram
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input platform-filter" type="checkbox" value="facebook" id="facebook" checked>
+                                        <label class="form-check-label" for="facebook">
+                                            <i class="fab fa-facebook text-primary me-1"></i>Facebook
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input platform-filter" type="checkbox" value="linkedin" id="linkedin" checked>
+                                        <label class="form-check-label" for="linkedin">
+                                            <i class="fab fa-linkedin text-info me-1"></i>LinkedIn
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="dateRange" class="form-label">Date Range</label>
+                                <select class="form-select" id="dateRange">
+                                    <option value="30">Last 30 days</option>
+                                    <option value="90">Last 90 days</option>
+                                    <option value="180">Last 6 months</option>
+                                    <option value="365" selected>Full Period (Jan 2022 - Feb 2023)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-title">Auto Refresh</h6>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="autoRefresh" checked>
+                            <label class="form-check-label" for="autoRefresh">
+                                Enable real-time updates
+                            </label>
+                        </div>
+                        <small class="text-muted">Updates every 30 seconds</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overview Cards -->
+        <div class="row mb-4" id="overviewCards">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title text-muted">Total Followers</h6>
+                                <h3 class="mb-0" id="totalFollowers">
+                                    <div class="placeholder-glow">
+                                        <span class="placeholder col-8"></span>
+                                    </div>
+                                </h3>
+                                <small class="text-success" id="followerGrowth">
+                                    <div class="placeholder-glow">
+                                        <span class="placeholder col-6"></span>
+                                    </div>
+                                </small>
+                            </div>
+                            <div class="text-primary">
+                                <i class="fas fa-users fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title text-muted">Total Engagement</h6>
+                                <h3 class="mb-0" id="totalEngagement">
+                                    <div class="placeholder-glow">
+                                        <span class="placeholder col-8"></span>
+                                    </div>
+                                </h3>
+                                <small class="text-info" id="engagementRate">
+                                    <div class="placeholder-glow">
+                                        <span class="placeholder col-6"></span>
+                                    </div>
+                                </small>
+                            </div>
+                            <div class="text-success">
+                                <i class="fas fa-heart fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title text-muted">Total Posts</h6>
+                                <h3 class="mb-0" id="totalPosts">
+                                    <div class="placeholder-glow">
+                                        <span class="placeholder col-8"></span>
+                                    </div>
+                                </h3>
+                                <small class="text-warning">This period</small>
+                            </div>
+                            <div class="text-warning">
+                                <i class="fas fa-edit fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="card-title text-muted">Avg Sentiment</h6>
+                                <h3 class="mb-0" id="avgSentiment">
+                                    <div class="placeholder-glow">
+                                        <span class="placeholder col-8"></span>
+                                    </div>
+                                </h3>
+                                <small class="text-success">Positive trend</small>
+                            </div>
+                            <div class="text-info">
+                                <i class="fas fa-smile fa-2x"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row 1 -->
+        <div class="row mb-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-chart-line me-2"></i>
+                            Engagement Over Time
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="engagementChart" height="400"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-chart-pie me-2"></i>
+                            Sentiment Analysis
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="sentimentChart" height="400"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row 2 -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-user-plus me-2"></i>
+                            Follower Growth
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="followerChart" height="400"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-chart-bar me-2"></i>
+                            Platform Activity
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="platformChart" height="400"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Post Performance Table -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-trophy me-2"></i>
+                            Top Performing Posts
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Platform</th>
+                                        <th>Content</th>
+                                        <th>Likes</th>
+                                        <th>Comments</th>
+                                        <th>Shares</th>
+                                        <th>Reach</th>
+                                        <th>Engagement Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="postsTable">
+                                    <!-- Loading placeholders -->
+                                    <tr>
+                                        <td><div class="placeholder-glow"><span class="placeholder col-8"></span></div></td>
+                                        <td><div class="placeholder-glow"><span class="placeholder col-6"></span></div></td>
+                                        <td><div class="placeholder-glow"><span class="placeholder col-10"></span></div></td>
+                                        <td><div class="placeholder-glow"><span class="placeholder col-4"></span></div></td>
+                                        <td><div class="placeholder-glow"><span class="placeholder col-4"></span></div></td>
+                                        <td><div class="placeholder-glow"><span class="placeholder col-4"></span></div></td>
+                                        <td><div class="placeholder-glow"><span class="placeholder col-6"></span></div></td>
+                                        <td><div class="placeholder-glow"><span class="placeholder col-5"></span></div></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <footer class="bg-dark text-white py-4 mt-5 border-top">
+  <div class="container text-center">
+    <p class="mb-2">Made with ❤️ by <strong>Pilla Sreebala Veera Venkata Satyanarayana</strong></p>
+    <div class="d-flex justify-content-center gap-4 mb-2">
+      <a href="https://github.com/satyanarayana53" class="text-white" target="_blank" title="GitHub">
+        <i class="fab fa-github fa-lg"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/satyanarayana53" class="text-white" target="_blank" title="LinkedIn">
+        <i class="fab fa-linkedin fa-lg"></i>
+      </a>
+      <a href="https://www.instagram.com/bad_boy_satyanarayana_?igsh=MXhjeHpwbm1tOGJpNw==" class="text-white" target="_blank" title="Instagram">
+        <i class="fab fa-instagram fa-lg"></i>
+      </a>
+    </div>
+    <small class="text-muted">© 2023 CyberTech_15 | All rights reserved</small>
+  </div>
+</footer>
+</body>
+</html>

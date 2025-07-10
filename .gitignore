@@ -1,0 +1,42 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+
+# Environment files
+.env
+*.env
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Editor/IDE settings
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Logs and debug files
+*.log
+
+# Replit files (if used)
+.replit
+*.replit
+
+# Compiled Python files (if any)
+*.pyd
+*.pyo
+
+# Static build artifacts (optional)
+static/cache/
+static/uploads/
+*.tmp
+
+# Backup or temp files
+*~
+*.bak
+*.swp
