@@ -1,3 +1,5 @@
+python-3.11.9
+
 Flask==3.0.3
 flask-cors==5.0.1
 gunicorn==21.2.0
@@ -8,8 +10,8 @@ click==8.1.7
 MarkupSafe==2.1.5
 
 # Optional - Data handling (used in DataGenerator)
-pandas==2.2.2
-numpy==1.26.4
+pandas==2.1.4
+numpy==1.25.2
 
 # Optional - If you use plotting or plan to export graphs
 matplotlib==3.9.0
