@@ -2,7 +2,7 @@
 
 A responsive and visually engaging web dashboard that displays real-time social media analytics using Flask, Chart.js, and Bootstrap. Built with love ❤️ and data!
 
-![Dashboard Screenshot](static/images/screenshot.png) <!-- (Optional) Update path if needed -->
+![Dashboard Screenshot](static\assets\screenshot.png) <!-- (Optional) Update path if needed -->
 
 ---
 
