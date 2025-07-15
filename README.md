@@ -2,7 +2,6 @@
 
 A responsive and visually engaging web dashboard that displays real-time social media analytics using Flask, Chart.js, and Bootstrap. Built with love ❤️ and data!
 
-![Dashboard Screenshot](static\assets\screenshot.png) <!-- (Optional) Update path if needed -->
 
 ---
 
@@ -24,7 +23,7 @@ A responsive and visually engaging web dashboard that displays real-time social 
 | HTML, CSS     | Python/Flask| Chart.js    | FontAwesome  |
 | Bootstrap 5   | Jinja2      |             | Replit (optional) |
 
----
+
 
 ## Project Structure
 
@@ -52,27 +51,6 @@ A responsive and visually engaging web dashboard that displays real-time social 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----
 
 ## Getting Started
 
