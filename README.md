@@ -2,7 +2,8 @@
 
 A responsive and visually engaging web dashboard that displays real-time social media analytics using Flask, Chart.js, and Bootstrap. Built with love ❤️ and data!
 
-
+Public Link: https://0vc08z3x-5000.inc1.devtunnels.ms/
+Hint: The public link will work only when my local server is running.
 ---
 
 ## Features
